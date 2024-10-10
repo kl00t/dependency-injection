@@ -1,5 +1,7 @@
 ﻿using DependencyInjection.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DependencyInjection.Controllers
 {
@@ -23,19 +25,22 @@ namespace DependencyInjection.Controllers
         {
             _logger.LogInformation("GetPerson requested");
 
-
             var dateOfBirth = DateOnly.FromDateTime(request.DateOfBirth);
 
             var response = _service.GetPerson(request.Name, dateOfBirth);
-            if (string.IsNullOrEmpty(response))
+            if (!response.IsSuccess)
             {
                 return BadRequest("Nothing returned!");
             }
 
             return Ok(new GetPersonResponse
             {
-                Id = Guid.NewGuid(),
-                Message = response,
+                Id = response.Data!.Id,
+                Name = response.Data!.Name,
+                Greeting = response.Data!.Greeting,
+                DateOfBirth = response.Data!.DateOfBirth,
+                StarSign = response.Data!.StarSign,
+                Message = response.Data!.Data,
             });
         }
     }

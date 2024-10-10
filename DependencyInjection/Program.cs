@@ -16,10 +16,8 @@ builder.Services.AddTransient<ICalculator, Calculator>(); // Green
 builder.Services.AddTransient<IGreeting, HelloGreeting>(); // Green
 builder.Services.AddTransient<IGreeting, HolaGreeting>(); // Greed
 
-
 // NOTE: Show example of services not being registered.
 // NOTE: Show example of precedence. This can be override by using name parameters
-
 
 var app = builder.Build();
 

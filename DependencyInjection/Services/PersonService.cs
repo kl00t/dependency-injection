@@ -1,6 +1,9 @@
 ﻿
+using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using DependencyInjection.Models;
 using DependencyInjection.Services.Contracts;
 
 namespace DependencyInjection.Services;
@@ -27,7 +30,7 @@ public class PersonService : IPersonService
         _greeting = greeting;
     }
 
-    public string? GetPerson(string name, DateOnly dateOfBirth)
+    public Result<Person> GetPerson(string name, DateOnly dateOfBirth)
     {
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine($"GetPerson");
@@ -46,10 +49,26 @@ public class PersonService : IPersonService
         var isSuccess = _repository.SaveData(data);
         if (isSuccess)
         {
-            return data;
+            return new Result<Person>
+            {
+                IsSuccess = true,
+                Data = new Person
+                {
+                    Id = Guid.NewGuid(),
+                    Name = name,
+                    Age = age,
+                    Greeting = greeting,
+                    StarSign = starSign,
+                    DateOfBirth = dateOfBirth,
+                    Data = data
+                }
+            };
         }
 
-        return null;
+        return new Result<Person>
+        {
+            IsSuccess = false
+        };
     }
 
     private static string CreateData(string name, string greeting, int age, string starSign, DateOnly dateOfBirth)
