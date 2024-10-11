@@ -33,7 +33,7 @@ public class PersonService : IPersonService
 
     public Result<Person> GetPerson(string name, DateOnly dateOfBirth)
     {
-        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"GetPerson");
         Console.ResetColor();
 
