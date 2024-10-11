@@ -1,12 +1,13 @@
-﻿
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-using DependencyInjection.Models;
+﻿using DependencyInjection.Models;
 using DependencyInjection.Services.Contracts;
+using System.Text;
 
 namespace DependencyInjection.Services;
+
+// [FromKeyedServices("sql")]IRepository greeting
+// [FromKeyedServices("mongo")]IRepository greeting
+// [FromKeyedServices("hello")]IGreeting greeting
+// [FromKeyedServices("hola")]IGreeting greeting
 
 public class PersonService : IPersonService
 {
@@ -15,8 +16,6 @@ public class PersonService : IPersonService
     private readonly IRepository _repository;
     private readonly IExternalApi _externalApi;
     private readonly IGreeting _greeting;
-
-    // [FromKeyedServices("hola")]IGreeting greeting
 
     public PersonService(
         ILogger<PersonService> logger, 
