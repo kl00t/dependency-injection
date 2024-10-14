@@ -1,10 +1,17 @@
 ﻿using DependencyInjection.Services.Contracts;
 using DependencyInjection.Services;
 
-namespace DependencyInjection;
+namespace DependencyInjection.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    public static void AddOperationExample(this IServiceCollection services)
+    {
+        services.AddTransient<IOperationTransient, Operation>();
+        services.AddScoped<IOperationScoped, Operation>();
+        services.AddSingleton<IOperationSingleton, Operation>();
+    }
+
     public static void AddServicesExample(this IServiceCollection services)
     {
         services.AddSingleton<IExternalApi, HoroscopeApi>(); // Red

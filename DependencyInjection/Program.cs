@@ -1,4 +1,4 @@
-using DependencyInjection;
+using DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -7,6 +7,7 @@ builder.Services.AddSwaggerGen();
 
 //builder.Services.AddServicesExample();
 //builder.Services.AddKeyedServicesExample();
+//builder.Services.AddOperationExample();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -15,6 +16,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCustomMiddleware();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

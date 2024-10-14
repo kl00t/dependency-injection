@@ -1,7 +1,5 @@
 ﻿using DependencyInjection.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DependencyInjection.Controllers
 {
