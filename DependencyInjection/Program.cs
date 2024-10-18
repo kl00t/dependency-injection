@@ -6,8 +6,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //builder.Services.AddServicesExample();
-//builder.Services.AddKeyedServicesExample();
-//builder.Services.AddOperationExample();
+builder.Services.AddKeyedServicesExample();
+builder.Services.AddOperationExample();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())

@@ -4,31 +4,32 @@ using System.Text;
 
 namespace DependencyInjection.Services;
 
-// [FromKeyedServices("sql")]IRepository greeting
-// [FromKeyedServices("mongo")]IRepository greeting
-// [FromKeyedServices("hello")]IGreeting greeting
-// [FromKeyedServices("hola")]IGreeting greeting
-
 public class PersonService : IPersonService
 {
     private readonly ILogger<PersonService> _logger;
     private readonly ICalculator _calculator;
-    private readonly IRepository _repository;
     private readonly IExternalApi _externalApi;
-    private readonly IGreeting _greeting;
+    private readonly IRepository _sqlRepository;
+    private readonly IRepository _mongoRepostory;
+    private readonly IGreeting _helloGreeting;
+    private readonly IGreeting _holaGreeting;
 
     public PersonService(
-        ILogger<PersonService> logger, 
-        ICalculator calculator, 
-        IRepository repository, 
+        ILogger<PersonService> logger,
+        ICalculator calculator,
         IExternalApi externalApi,
-        IGreeting greeting)
+        [FromKeyedServices("sql")] IRepository sqlRepository,
+        [FromKeyedServices("mongo")] IRepository mongoRepostory,
+        [FromKeyedServices("hello")] IGreeting helloGreeting,
+        [FromKeyedServices("hola")] IGreeting holaGreeting)
     {
         _logger = logger;
         _calculator = calculator;
-        _repository = repository;
         _externalApi = externalApi;
-        _greeting = greeting;
+        _sqlRepository = sqlRepository;
+        _mongoRepostory = mongoRepostory;
+        _helloGreeting = helloGreeting;
+        _holaGreeting = holaGreeting;
     }
 
     public Result<Person> GetPerson(string name, DateOnly dateOfBirth)
@@ -39,7 +40,8 @@ public class PersonService : IPersonService
 
         _logger.LogInformation("GetPerson called for {name}", name);
 
-        var greeting = _greeting.Greeting(name);
+        var greeting = _helloGreeting.Greeting(name);
+        var hola = _holaGreeting.Greeting(name);
 
         var age = _calculator.CalculateAge(dateOfBirth);
 
@@ -47,7 +49,9 @@ public class PersonService : IPersonService
 
         var data = CreateData(name, greeting, age, starSign, dateOfBirth);
 
-        var isSuccess = _repository.SaveData(data);
+        var isSuccess = _sqlRepository.SaveData(data);
+        var isSuccess2 = _mongoRepostory.SaveData(data);
+
         if (isSuccess)
         {
             return new Result<Person>
